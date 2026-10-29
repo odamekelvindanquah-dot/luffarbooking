@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f7f7f4">
+  <meta name="description" content="Explore Danquah Odame Kelvin's digital services and send a booking request for a project, consultation, collaboration, or other service.">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <title>Danquah Bookings</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+    body { font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif; background: #f7f7f4; color: #151515; line-height: 1.6; }
+    a { color: inherit; }
+    button, input, select, textarea { font: inherit; }
+    .nav { height: 76px; display: flex; align-items: center; justify-content: space-between; padding: 0 7%; position: sticky; top: 0; background: rgba(247,247,244,.96); backdrop-filter: blur(12px); z-index: 10; border-bottom: 1px solid #ddd; }
+    .logo { font-weight: 900; font-size: 1.35rem; letter-spacing: 2px; color: #111; text-decoration: none; }
+    .logo span { color: #ff5a36; }
+    .nav nav { display: flex; align-items: center; gap: 28px; }
+    .nav nav a { color: #333; text-decoration: none; font-weight: 600; font-size: .95rem; }
+    .nav nav a:hover { color: #ff5a36; }
+    .nav .nav-cta { background: #111; color: white; padding: 10px 17px; border-radius: 10px; }
+    .nav .nav-cta:hover { color: white; background: #ff5a36; }
+    .theme-toggle { display: inline-flex; align-items: center; gap: 7px; flex: 0 0 auto; border: 1px solid #c9c9c2; border-radius: 10px; padding: 9px 12px; color: #222; background: #fff; font-weight: 750; font-size: .84rem; cursor: pointer; }
+    .theme-toggle:hover { border-color: #ff5a36; }
+    .theme-toggle span:first-child { font-size: 1.05rem; line-height: 1; }
+    .menu { display: none; border: 0; background: none; font-size: 25px; cursor: pointer; color: #111; }
+    .hero { min-height: min(760px, calc(100vh - 76px)); padding: 80px 7%; display: grid; grid-template-columns: 1.35fr .65fr; gap: 60px; align-items: center; background: radial-gradient(circle at 80% 20%, #ffd5c9, transparent 35%); }
+    .eyebrow { font-size: .76rem; font-weight: 800; letter-spacing: 2px; color: #ff5a36; margin-bottom: 12px; }
+    .hero h1 { font-size: clamp(3.25rem, 7vw, 6.5rem); line-height: .98; max-width: 900px; letter-spacing: -4px; }
+    .hero h1 span { color: #ff5a36; }
+    .lead { font-size: 1.1rem; max-width: 650px; color: #555; margin: 28px 0; }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn { display: inline-block; border: 0; border-radius: 12px; padding: 13px 21px; font-weight: 800; text-decoration: none; cursor: pointer; font-size: 1rem; transition: .2s ease; }
+    .btn:hover { transform: translateY(-2px); }
+    .primary { background: #111; color: white; }
+    .primary:hover { background: #ff5a36; }
+    .secondary { border: 1px solid #bbb; color: #111; background: white; }
+    .secondary:hover { border-color: #111; }
+    .hero-card { background: #111; color: white; padding: 38px; border-radius: 28px; box-shadow: 20px 25px 60px #0002; }
+    .avatar { height: 100px; width: 100px; border-radius: 50%; background: #ff5a36; display: grid; place-items: center; font-size: 3rem; font-weight: 900; margin-bottom: 25px; }
+    .hero-card h2 { font-size: 2rem; line-height: 1.2; }
+    .hero-card > p { color: #bbb; margin-top: 7px; }
+    .status { margin-top: 30px; border-top: 1px solid #333; padding-top: 18px; font-size: .9rem; color: #e5e5e5; }
+    .status i { display: inline-block; width: 9px; height: 9px; background: #43d17a; border-radius: 50%; margin-right: 8px; }
+    .section { padding: 100px 7%; }
+    .section-head { max-width: 750px; margin-bottom: 45px; }
+    .section h2 { font-size: clamp(2.2rem, 4vw, 4rem); line-height: 1.05; letter-spacing: -2px; }
+    .section-head > p:last-child { margin-top: 15px; color: #666; }
+    .about-grid { display: grid; grid-template-columns: 1.3fr .7fr; gap: 80px; font-size: 1.12rem; }
+    .about-grid p { color: #454545; }
+    .stats { display: grid; gap: 14px; }
+    .stats div { border-top: 1px solid #ccc; padding: 18px 0; display: flex; justify-content: space-between; gap: 18px; }
+    .stats b { font-size: 1.5rem; }
+    .stats span { color: #666; }
+    .dark { background: #111; color: white; }
+    .dark .eyebrow { color: #ff8065; }
+    .service-search { max-width: 560px; margin: 0 0 25px; }
+    .service-search input { margin: 0; border-color: #444; color: #fff; background: #1a1a1a; }
+    .service-search input::placeholder { color: #aaa; }
+    .service-search input:focus { outline: 3px solid rgba(255,128,101,.2); border-color: #ff8065; }
+    .service-search-status { min-height: 1.5em; margin-top: 8px; color: #bbb; font-size: .85rem; }
+    .service-finder { max-width: 920px; margin: 0 0 35px; padding: 28px; border: 1px solid #373737; border-radius: 20px; background: #191919; }
+    .service-finder > p { color: #bdbdbd; }
+    .finder-progress { margin-bottom: 7px; color: #ff8065 !important; font-size: .76rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
+    .finder-back { margin-bottom: 12px; padding: 2px 0; border: 0; color: #ff8065; background: transparent; font: inherit; font-size: .85rem; font-weight: 800; cursor: pointer; }
+    .finder-question { margin-bottom: 18px; color: #fff; font-size: 1.35rem; line-height: 1.25; }
+    .finder-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .finder-option { min-height: 78px; padding: 14px 16px; border: 1px solid #404040; border-radius: 13px; color: #f5f5f1; background: #222; text-align: left; cursor: pointer; transition: border-color .2s, background .2s, transform .2s; }
+    .finder-option:hover { border-color: #ff8065; background: #292321; transform: translateY(-2px); }
+    .finder-option strong, .finder-option small { display: block; }
+    .finder-option small { margin-top: 4px; color: #b7b7b7; font-size: .83rem; line-height: 1.35; }
+    .finder-result { margin-top: 8px; padding: 20px; border: 1px solid #494949; border-left: 4px solid #ff5a36; border-radius: 14px; background: #222; }
+    .finder-result-label { display: block; margin-bottom: 5px; color: #ff8065; font-size: .76rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
+    .finder-result h4 { margin-bottom: 6px; color: #fff; font-size: 1.35rem; }
+    .finder-result p { color: #c5c5c5; }
+    .finder-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 17px; }
+    .finder-note { margin-top: 17px; color: #aaa !important; font-size: .8rem; }
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .card { border: 1px solid #333; border-radius: 20px; padding: 27px; transition: .25s; display: flex; flex-direction: column; align-items: flex-start; }
+    .card:hover { transform: translateY(-5px); border-color: #ff5a36; }
+    .icon { font-size: 2rem; }
+    .card h3 { font-size: 1.25rem; margin: 17px 0 8px; line-height: 1.3; }
+    .card p { color: #aaa; font-size: .96rem; flex: 1; }
+    .card button { margin-top: 20px; background: none; color: #ff8065; border: 0; font-weight: 800; cursor: pointer; padding: 5px 0; }
+    .card button:hover { color: #fff; }
+    .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .work-grid article { min-height: 250px; background: #e9e9e4; padding: 28px; border-radius: 20px; }
+    .work-grid span { color: #ff5a36; font-weight: 900; }
+    .work-grid h3 { font-size: 1.55rem; margin: 70px 0 8px; line-height: 1.2; }
+    .work-grid p { color: #666; }
+    .booking-process { background: #efefea; }
+    .booking-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+    .booking-step { min-height: 205px; padding: 26px; border: 1px solid #deded7; border-radius: 20px; background: #fff; }
+    .booking-step-number { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 13px; color: #111; background: #ff5a36; font-weight: 900; }
+    .booking-step h3 { margin: 20px 0 8px; font-size: 1.25rem; }
+    .booking-step p { color: #666; }
+    .booking-process .btn { margin-top: 24px; }
+    .booking { background: #fff; }
+    .booking form { max-width: 900px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .booking label { font-weight: 800; font-size: .9rem; display: block; margin-bottom: 18px; }
+    input, select, textarea { display: block; width: 100%; margin-top: 7px; border: 1px solid #ccc; border-radius: 10px; padding: 13px; font: inherit; background: #fafafa; color: #151515; }
+    input:focus, select:focus, textarea:focus { outline: 3px solid rgba(255,90,54,.2); border-color: #ff5a36; }
+    textarea { resize: vertical; }
+    .form-grid + label { margin-top: 3px; }
+    .form-note { font-size: .8rem; color: #777; margin-top: 12px; }
+    .success { margin-top: 20px; background: #e4f8ea; border: 1px solid #a9dfb8; padding: 18px; border-radius: 12px; }
+    .success h3 { margin: 0 0 6px; font-size: 1.05rem; line-height: 1.35; }
+    .success p { margin: 3px 0 15px; }
+    .success .btn { font-size: .9rem; }
+    .success-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .booking-review-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 22px; margin: 0 0 18px; }
+    .booking-review-item { min-width: 0; padding: 10px 0; border-top: 1px solid #c7decf; }
+    .booking-review-item-full { grid-column: 1 / -1; }
+    .booking-review-item dt { color: #526458; font-size: .76rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+    .booking-review-item dd { margin: 3px 0 0; overflow-wrap: anywhere; white-space: pre-wrap; }
+    .success.notice-error { background: #fff0ec; border-color: #ffc2b3; }
+    .hidden { display: none; }
+    .contact-strip { padding: 70px 7%; background: #ff5a36; color: #111; display: flex; justify-content: space-between; align-items: center; gap: 30px; }
+    .contact-strip .eyebrow { color: #111; }
+    .contact-strip h2 { font-size: clamp(1.8rem, 3.4vw, 2.7rem); line-height: 1.1; }
+    .contact-strip .secondary { border-color: #111; background: transparent; }
+    .contact-strip .secondary:hover { color: white; background: #111; }
+    .social-section { background: #f7f7f4; }
+    .social-links { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; max-width: 1100px; }
+    .social-link { min-height: 88px; display: flex; align-items: center; gap: 14px; padding: 18px 20px; border: 1px solid #d8d8d2; border-radius: 16px; color: #151515; background: #fff; text-decoration: none; transition: transform .2s, border-color .2s, box-shadow .2s; }
+    .social-link:hover { transform: translateY(-3px); border-color: #ff5a36; box-shadow: 0 12px 28px #00000012; }
+    .social-mark { width: 46px; height: 46px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 50%; color: #111; background: #ff5a36; font-size: .9rem; font-weight: 900; letter-spacing: -.04em; }
+    .social-mark svg { display: block; width: 25px; height: 25px; }
+    .social-copy strong, .social-copy small { display: block; }
+    .social-copy strong { font-size: 1rem; }
+    .social-copy small { margin-top: 2px; color: #707070; font-size: .85rem; }
+    .social-arrow { margin-left: auto; font-size: 1.25rem; font-weight: 800; }
+    footer { padding: 28px 7%; display: flex; justify-content: space-between; gap: 15px; color: #777; font-size: .85rem; }
+    .chat-launcher { position: fixed; right: 24px; bottom: 24px; z-index: 31; width: 62px; height: 62px; display: grid; place-items: center; border: 0; border-radius: 50%; color: #111; background: #ff5a36; box-shadow: 0 10px 30px #0003; cursor: pointer; transition: transform .2s, background .2s; }
+    .chat-launcher:hover { transform: translateY(-3px); background: #ff8065; }
+    .chat-launcher svg { width: 27px; height: 27px; }
+    .chat-widget { position: fixed; right: 24px; bottom: 98px; z-index: 30; width: min(370px, calc(100vw - 32px)); height: min(540px, calc(100dvh - 124px)); display: flex; flex-direction: column; overflow: hidden; border: 1px solid #ddd; border-radius: 18px; background: white; box-shadow: 0 20px 65px #0003; }
+    .chat-widget[hidden] { display: none; }
+    .chat-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 15px 17px; color: white; background: #111; }
+    .chat-title { display: flex; align-items: center; gap: 11px; }
+    .chat-avatar { width: 38px; height: 38px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 50%; color: #111; background: #ff5a36; font-size: 1.2rem; font-weight: 900; }
+    .chat-title strong { display: block; font-size: .93rem; }
+    .chat-title small { color: #c7c7c7; font-size: .73rem; }
+    .chat-close { width: 34px; height: 34px; border: 0; border-radius: 8px; color: white; background: transparent; font-size: 1.5rem; cursor: pointer; }
+    .chat-close:hover { background: #ffffff1c; }
+    .chat-log { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding: 16px; background: #f7f7f4; }
+    .chat-message { max-width: 88%; padding: 11px 13px; border-radius: 13px; font-size: .88rem; line-height: 1.5; overflow-wrap: anywhere; }
+    .chat-message p { white-space: pre-line; }
+    .chat-message.bot { align-self: flex-start; border: 1px solid #e6e6e2; border-bottom-left-radius: 4px; color: #262626; background: white; }
+    .chat-message.user { align-self: flex-end; border-bottom-right-radius: 4px; color: white; background: #111; }
+    .chat-action { display: inline-flex; margin-top: 9px; padding: 8px 11px; border: 0; border-radius: 8px; color: white; background: #ff5a36; font-size: .8rem; font-weight: 800; text-decoration: none; cursor: pointer; }
+    .chat-action:hover { background: #e54828; }
+    .chat-quick-replies { display: flex; flex-wrap: wrap; gap: 7px; padding: 11px 13px 2px; background: #fff; }
+    .chat-quick-replies button { padding: 7px 10px; border: 1px solid #ddd; border-radius: 99px; color: #333; background: #fff; font-size: .74rem; cursor: pointer; }
+    .chat-quick-replies button:hover { border-color: #ff5a36; color: #d63e20; }
+    .chat-composer { display: flex; align-items: center; gap: 8px; padding: 10px 13px 12px; background: #fff; }
+    .chat-composer input { min-width: 0; margin: 0; padding: 11px 12px; border-radius: 10px; font-size: .85rem; }
+    .chat-composer button { width: 42px; height: 42px; flex: 0 0 auto; display: grid; place-items: center; border: 0; border-radius: 10px; color: white; background: #111; cursor: pointer; }
+    .chat-composer button:hover { background: #ff5a36; }
+    .chat-composer button svg { width: 19px; height: 19px; }
+    .chat-footnote { padding: 0 14px 12px; color: #888; background: #fff; text-align: center; font-size: .68rem; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+    :focus-visible { outline: 3px solid #ff5a36; outline-offset: 3px; }
+    body.dark-mode { background: #111213; color: #f5f5f1; }
+    .dark-mode .nav { background: rgba(17,18,19,.96); border-color: #303133; }
+    .dark-mode .logo, .dark-mode .nav nav a { color: #f5f5f1; }
+    .dark-mode .nav nav a:hover { color: #ff8065; }
+    .dark-mode .theme-toggle { color: #f5f5f1; background: #202122; border-color: #494a4b; }
+    .dark-mode .hero { background: radial-gradient(circle at 80% 20%, #4a2923, transparent 38%); }
+    .dark-mode .lead, .dark-mode .about-grid p, .dark-mode .stats span { color: #bdbdb8; }
+    .dark-mode .stats div { border-color: #393a3b; }
+    .dark-mode .secondary { color: #f5f5f1; background: #202122; border-color: #555; }
+    .dark-mode .secondary:hover { border-color: #f5f5f1; }
+    .dark-mode .booking-process { background: #191a1b; }
+    .dark-mode .booking-step, .dark-mode .work-grid article { color: #f5f5f1; background: #202122; border-color: #393a3b; }
+    .dark-mode .booking-step p, .dark-mode .work-grid p { color: #bdbdb8; }
+    .dark-mode .booking { background: #161718; }
+    .dark-mode input, .dark-mode select, .dark-mode textarea { color: #f5f5f1; background: #202122; border-color: #494a4b; color-scheme: dark; }
+    .dark-mode input::placeholder, .dark-mode textarea::placeholder { color: #a3a3a0; }
+    .dark-mode .form-note { color: #aaa; }
+    .dark-mode .success { color: #ecfff0; background: #173020; border-color: #326444; }
+    .dark-mode .success.notice-error { color: #fff0ec; background: #3b211d; border-color: #704139; }
+    .dark-mode .booking-review-item { border-color: #326444; }
+    .dark-mode .booking-review-item dt { color: #b8d4bf; }
+    .dark-mode .social-section { background: #111213; }
+    .dark-mode .social-link { color: #f5f5f1; background: #202122; border-color: #393a3b; }
+    .dark-mode .social-copy small { color: #bdbdb8; }
+    .dark-mode footer { color: #aaa; }
+    .dark-mode .nav nav { background: #171819; border-color: #303133; }
+    @media (min-width: 801px) and (max-width: 1050px) {
+      .nav nav { gap: 10px; }
+      .nav nav a { font-size: .82rem; }
+      .theme-toggle { padding: 8px 9px; }
+      .logo { font-size: 1.2rem; }
+    }
+    @media (max-width: 900px) {
+      .nav { padding: 0 5%; }
+      .nav nav { gap: 18px; }
+      .hero, .section { padding-left: 5%; padding-right: 5%; }
+      .hero { grid-template-columns: 1.1fr .9fr; gap: 32px; }
+      .hero-card { padding: 30px; }
+      .about-grid { gap: 45px; }
+      .cards { grid-template-columns: repeat(2, 1fr); }
+      .social-links { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 800px) {
+      .nav nav { display: none; position: absolute; top: 76px; left: 0; right: 0; background: #f7f7f4; padding: 20px 7%; flex-direction: column; align-items: flex-start; border-bottom: 1px solid #ddd; box-shadow: 0 16px 24px #0001; }
+      .nav nav.open { display: flex; }
+      .menu { display: block; }
+      .hero, .about-grid { grid-template-columns: 1fr; }
+      .hero { min-height: unset; padding-top: 65px; padding-bottom: 75px; }
+      .hero-card { max-width: 520px; }
+      .section { padding-top: 76px; padding-bottom: 76px; }
+      .work-grid { grid-template-columns: 1fr; }
+      .work-grid article { min-height: 210px; }
+      .work-grid h3 { margin-top: 42px; }
+      .booking-steps { grid-template-columns: 1fr; }
+      .contact-strip, footer { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 560px) {
+      .nav { height: 68px; }
+      .nav nav { top: 68px; }
+      .hero { padding-top: 52px; }
+      .hero h1 { font-size: clamp(3.15rem, 13vw, 4.5rem); letter-spacing: -2.6px; }
+      .lead { font-size: 1rem; margin: 22px 0; }
+      .hero-card { padding: 28px; border-radius: 22px; }
+      .hero-card h2 { font-size: 1.7rem; }
+      .section { padding: 68px 6%; }
+      .about-grid { font-size: 1rem; gap: 25px; }
+      .cards, .form-grid { grid-template-columns: 1fr; }
+      .finder-options { grid-template-columns: 1fr; }
+      .service-finder { padding: 21px; }
+      .booking-review-list { grid-template-columns: 1fr; }
+      .social-links { grid-template-columns: 1fr; }
+      .card { padding: 23px; }
+      .contact-strip { padding: 53px 6%; }
+      footer { padding: 24px 6%; }
+      .chat-launcher { right: 16px; bottom: 16px; width: 57px; height: 57px; }
+      .chat-widget { right: 16px; bottom: 84px; height: min(540px, calc(100dvh - 104px)); }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <a class="logo" href="#home" aria-label="Luffar home">Danquah<span>.</span></a>
+    <button class="menu" id="menuBtn" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="navLinks">☰</button>
+    <nav id="navLinks" aria-label="Main navigation">
+      <a href="#home">Home</a><a href="#about">About</a><a href="#services">What I Do</a>
+      <a href="#work">My Work</a><a href="#process">Process</a><a href="#social">Socials</a><a href="#booking" class="nav-cta">Book Me</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode"><span id="themeIcon" aria-hidden="true">☾</span><span id="themeText">Dark</span></button>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">AVAILABLE FOR BOOKINGS</p>
+        <h1>I turn your ideas into <span>digital experiences.</span></h1>
+        <p class="lead">Welcome to my personal portfolio. Explore my services and book me for a project, consultation, collaboration, or other service.</p>
+        <div class="actions">
+          <a class="btn primary" href="#booking">Book Me</a>
+          <a class="btn secondary" href="#services">See What I Do</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="avatar" aria-hidden="true">D</div>
+        <h2>Danquah Odame Kelvin</h2>
+        <p>Developer · Designer · Editor</p>
+        <div class="status"><i aria-hidden="true"></i>Ready to help customers bring thier ideas to life</div>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="section-head"><p class="eyebrow">ABOUT ME</p><h2>Let people know more about me.</h2></div>
+      <div class="about-grid">
+        <div><p>I’m Danquah Odame Kelvin, an Information Technology student at UPSA in Ghana. I’m passionate about technology, creativity, business, and innovation. I enjoy building websites and digital projects, creating designs, and learning new tools and skills. I help individuals, students, businesses, and organizations turn ideas into useful, attractive digital experiences. I’m building my own brand through real projects and solutions that make a difference.</p></div>
+        <div class="stats" aria-label="What I do"><div><b>01</b><span>Personal projects</span></div><div><b>02</b><span>Client services</span></div><div><b>03</b><span>Collaborations</span></div></div>
+      </div>
+    </section>
+
+    <section id="services" class="section dark">
+      <div class="section-head"><p class="eyebrow">SERVICES</p><h2>Choose what you need.</h2></div>
+      <div class="service-finder" role="region" aria-label="Service finder">
+        <button class="finder-back" id="finderBack" type="button" hidden>← Back</button>
+        <p class="finder-progress" id="finderProgress" aria-live="polite">Question 1 of 2</p>
+        <h3 class="finder-question" id="finderQuestion" tabindex="-1">What kind of help are you looking for?</h3>
+        <div class="finder-options" id="finderOptions" role="group" aria-labelledby="finderQuestion"></div>
+        <div class="finder-result" id="finderResult" hidden aria-live="polite">
+          <span class="finder-result-label">A good match for you</span>
+          <h4 id="finderServiceName"></h4>
+          <p id="finderServiceDescription"></p>
+          <div class="finder-actions">
+            <button class="btn primary" id="finderBook" type="button">Book this service</button>
+            <button class="btn secondary" id="finderRestart" type="button">Start again</button>
+          </div>
+        </div>
+        <p class="finder-note">Your answers are only used to suggest a service.</p>
+      </div>
+      <div class="service-search">
+        <label class="sr-only" for="serviceSearch">Search services</label>
+        <input type="search" id="serviceSearch" placeholder="Search services (e.g. design, editing)" autocomplete="off">
+        <p class="service-search-status" id="serviceSearchStatus" role="status" aria-live="polite"></p>
+      </div>
+      <div class="cards" id="serviceCards"></div>
+    </section>
+
+    <section id="process" class="section booking-process">
+      <div class="section-head"><p class="eyebrow">HOW BOOKING WORKS</p><h2>Simple from start to finish.</h2><p>Here’s what happens after you send a booking request.</p></div>
+      <div class="booking-steps">
+        <article class="booking-step"><span class="booking-step-number">01</span><h3>Choose and request</h3><p>Select a service, preferred date, and tell me a little about what you need.</p></article>
+        <article class="booking-step"><span class="booking-step-number">02</span><h3>Discuss the details</h3><p>I’ll contact you to talk through your request, timing, and any questions.</p></article>
+        <article class="booking-step"><span class="booking-step-number">03</span><h3>Confirm the booking</h3><p>Once we agree on the details and schedule, I’ll confirm your booking.</p></article>
+      </div>
+      <a class="btn primary" href="#booking">Start a booking</a>
+    </section>
+
+    <section id="work" class="section">
+      <div class="section-head"><p class="eyebrow">MY WORK</p><h2>Projects &amp; experience.</h2></div>
+      <div class="work-grid">
+        <article><span>01</span><h3>Website Development</h3><p>Modern, responsive websites and web applications.</p></article>
+        <article><span>02</span><h3>App &amp; UI Concepts</h3><p>Clean interfaces and ideas turned into working prototypes.</p></article>
+        <article><span>03</span><h3>Digital Projects</h3><p>Creative technology projects built around real problems.</p></article>
+      </div>
+    </section>
+
+    <section id="booking" class="section booking">
+      <div class="section-head"><p class="eyebrow">BOOK ME</p><h2>Tell me what you need.</h2><p>Send a booking request and I can contact you for more information.</p></div>
+      <form id="bookingForm" name="booking-request" method="POST">
+        <input type="hidden" name="_subject" value="New booking request from Danquah Bookings">
+        <p class="hidden"><label>Leave this field empty: <input name="_gotcha" tabindex="-1" autocomplete="off"></label></p>
+        <div class="form-grid">
+          <label>Full name<input required name="name" autocomplete="name" placeholder="Your name"></label>
+          <label>Phone / WhatsApp<input required name="phone" type="tel" autocomplete="tel" placeholder="+233 …"></label>
+          <label>Email<input name="email" type="email" autocomplete="email" placeholder="you@example.com"></label>
+          <label>Service<select required name="service" id="serviceSelect"><option value="">Select a service</option></select></label>
+          <label>Date<input type="date" required name="date" id="date"></label>
+          <label>Preferred time<input type="time" name="time"></label>
+        </div>
+        <label>Tell me more<textarea required name="message" rows="5" placeholder="What would you like me to help you with?"></textarea></label>
+        <button class="btn primary" type="submit">Send Booking Request</button>
+        <p class="form-note">Your details are used to respond to your booking request. Please don’t include passwords or other sensitive information.</p>
+      </form>
+      <div id="success" class="success hidden" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="contact-strip">
+      <div><p class="eyebrow">LET’S CONNECT</p><h2>Have a question before booking?</h2></div>
+      <a class="btn secondary" id="whatsappTop" href="https://wa.me/233546220830" target="_blank" rel="noopener noreferrer">Chat on WhatsApp</a>
+    </section>
+
+    <section id="social" class="section social-section">
+      <div class="section-head"><p class="eyebrow">FOLLOW ALONG</p><h2>Find me on social media.</h2><p>Connect with me on Instagram, Snapchat and TikTok.</p></div>
+      <div class="social-links">
+        <a class="social-link" href="https://www.instagram.com/am_luffar/" target="_blank" rel="noopener noreferrer" aria-label="Visit Instagram profile am_luffar">
+          <span class="social-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.6" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg></span>
+          <span class="social-copy"><strong>Instagram</strong><small>@am_luffar</small></span>
+          <span class="social-arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="social-link" href="https://www.snapchat.com/add/am_danquah" target="_blank" rel="noopener noreferrer" aria-label="Visit Snapchat profile am_danquah">
+          <span class="social-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2c-2.7 0-4.5 2-4.5 4.8v1.7c0 1.5-1 2.7-2.8 3.8-.6.4-1 .7-.9 1.2.1.6 1.1.8 2 1 .6.2.9.5 1.1 1 .2.5.5.8 1 .8.7 0 1.1-.5 1.8-.5.8 0 1.2 1.3 2.3 1.3s1.5-1.3 2.3-1.3c.7 0 1.1.5 1.8.5.5 0 .8-.3 1-.8.2-.5.5-.8 1.1-1 .9-.2 1.9-.4 2-1 .1-.5-.3-.8-.9-1.2-1.8-1.1-2.8-2.3-2.8-3.8V8c0-2.8-1.8-4.8-4.5-4.8Z"/><circle cx="10" cy="9.5" r=".55" fill="currentColor" stroke="none"/><circle cx="14" cy="9.5" r=".55" fill="currentColor" stroke="none"/></svg></span>
+          <span class="social-copy"><strong>Snapchat</strong><small>@am_danquah</small></span>
+          <span class="social-arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="social-link" href="https://www.tiktok.com/@am_luffar" target="_blank" rel="noopener noreferrer" aria-label="Visit TikTok profile am_luffar">
+          <span class="social-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.06 1.75 4.16 1.12 1.1 2.64 1.72 4.23 1.75v4.02c-1.5-.04-3-.42-4.3-1.15-.57-.31-1.1-.69-1.63-1.09-.01 3.42.01 6.84-.02 10.25-.09 1.5-.58 2.96-1.53 4.15-1.54 1.98-4.25 3.27-6.75 2.92-2.28-.31-4.39-1.94-5.38-4.01-.29-.61-.5-1.27-.62-1.93-.2-1.26-.13-2.59.33-3.8.73-2.02 2.46-3.68 4.51-4.32 1.24-.39 2.6-.43 3.87-.1.01 1.48-.03 2.97-.03 4.45-1.04-.33-2.23-.24-3.15.35-.67.43-1.18 1.15-1.34 1.95-.14.58-.09 1.2.13 1.76.36.92 1.24 1.68 2.21 1.83 1.04.18 2.2-.17 2.88-1.01.44-.53.65-1.23.65-1.91.03-6.91 0-13.82.03-20.73z"/></svg></span>
+          <span class="social-copy"><strong>TikTok</strong><small>@am_luffar</small></span>
+          <span class="social-arrow" aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer><span>© <span id="year"></span> Danquah Odame Kelvin. All rights reserved.</span><span>Built for bookings &amp; collaborations.</span></footer>
+
+  <aside class="chat-widget" id="chatWidget" aria-label="Booking assistant" hidden>
+    <div class="chat-header">
+      <div class="chat-title"><span class="chat-avatar" aria-hidden="true">D</span><div><strong>Booking assistant</strong><small>Here to help with services and bookings</small></div></div>
+      <button class="chat-close" id="chatClose" type="button" aria-label="Close chat">×</button>
+    </div>
+    <div class="chat-log" id="chatLog" role="log" aria-live="polite" aria-relevant="additions">
+      <div class="chat-message bot"><p>Hi! I'm Alpha, I can help you explore services, understand how booking works, or get in touch on WhatsApp. What would you like to know?</p></div>
+    </div>
+    <div class="chat-quick-replies" id="chatQuickReplies" aria-label="Suggested questions">
+      <button type="button" data-chat-prompt="What services do you offer?">View services</button>
+      <button type="button" data-chat-prompt="How do I book?">How to book</button>
+      <button type="button" data-chat-prompt="Can I chat on WhatsApp?">WhatsApp</button>
+    </div>
+    <form class="chat-composer" id="chatForm">
+      <label class="sr-only" for="chatInput">Type your message</label>
+      <input id="chatInput" name="message" maxlength="400" autocomplete="off" placeholder="Ask me something…" required>
+      <button type="submit" aria-label="Send message"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12 20 4l-5.4 16-3.1-6.5L4 12Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m11.5 13.5 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+    </form>
+    <p class="chat-footnote">Automated assistant · answers based on this website</p>
+  </aside>
+  <button class="chat-launcher" id="chatLauncher" type="button" aria-label="Open chat assistant" aria-expanded="false" aria-controls="chatWidget">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5c-1.2 0-2.3-.28-3.3-.78L4 20l1.4-4.2A7.5 7.5 0 1 1 20 11.5Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.5 11.5h.01M12.5 11.5h.01M16.5 11.5h.01" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+  </button>
+
+  <script>
+    const CONFIG = {
+      whatsapp: "233546220830",
+      email: "odamekelvindanquah@gmail.com"
+    };
+    const services = [
+      ["🌐", "Website Development", "Build responsive, modern websites and web applications."],
+      ["🎨", "UI / Design", "Create attractive interfaces, landing pages, and digital concepts."],
+      ["❤️‍🔥", "Social Media Boost", "Grow your social media presence with more followers, likes, views, and saves."],
+      ["🖥️", "Graphic Design", "Create clear, attractive graphics for your digital projects."],
+      ["📚", "Tech Tutoring", "Get help understanding programming, algorithms, and projects."],
+      ["🚀", "Project Consultation", "Discuss an idea and get guidance on how to build it."],
+      ["🤝", "Collaboration", "Work together on a creative or technology project."],
+      ["⚙️", "Operating System Installation", "Install and set up an operating system on your PC."],
+      ["🎮", "PC Game Installation", "Install PC games and get help with basic setup or troubleshooting."],
+      ["🛠️", "Software Installation", "Install and configure software, with help for setup issues."],
+      ["🪄", "3D Modeling", "Create clear, attractive models for your projects."],
+      ["👨‍🏫", "Project Assistance", "Get practical help planning, troubleshooting, and making progress on a technology project."],
+      ["🤩", "Project Conclusion", "Get guidance reviewing, polishing, and preparing the final stages of your project."],
+      ["📸", "Picture / Video Editing", "Enhance photos and videos with clean edits, thoughtful visuals, and a polished finish."]
+    ];
+    const serviceAliases = {
+      "Website Development": ["website", "web development", "web app", "web application", "site"],
+      "UI / Design": ["ui", "ux", "interface", "landing page", "digital concept"],
+      "Social Media Boost": ["social media", "followers", "likes", "views"],
+      "Graphic Design": ["graphic", "graphics", "poster", "logo"],
+      "Tech Tutoring": ["tutoring", "programming help", "algorithms", "coding lesson"],
+      "Project Consultation": ["consultation", "project advice", "idea guidance"],
+      "Collaboration": ["collaborate", "work together", "team up"],
+      "Operating System Installation": ["operating system", "windows installation", "os installation"],
+      "PC Game Installation": ["pc game", "game installation", "install a game"],
+      "Software Installation": ["install software", "software setup", "computer software"],
+      "Project Assistance": ["help in building", "work together", "advice"],
+      "Project Conclusion": ["finish project", "generate finishing"],
+      "3D Modeling": ["3d model", "3d design", "modeling"],
+      "Picture / Video Editing": ["picture editing", "photo editing", "video editing", "edit a video"]
+    };
+
+    const cards = document.getElementById("serviceCards");
+    const select = document.getElementById("serviceSelect");
+    services.forEach(([icon, name, description]) => {
+      const card = document.createElement("article");
+      card.className = "card";
+      card.dataset.search = [name, description, ...(serviceAliases[name] || [])].join(" ").toLowerCase();
+      const symbol = document.createElement("div"); symbol.className = "icon"; symbol.setAttribute("aria-hidden", "true"); symbol.textContent = icon;
+      const title = document.createElement("h3"); title.textContent = name;
+      const detail = document.createElement("p"); detail.textContent = description;
+      const button = document.createElement("button"); button.type = "button"; button.textContent = "Book this →";
+      button.addEventListener("click", () => {
+        select.value = name;
+        document.getElementById("booking").scrollIntoView({ behavior: "smooth" });
+        select.focus({ preventScroll: true });
+      });
+      card.append(symbol, title, detail, button);
+      cards.append(card);
+      const option = document.createElement("option"); option.value = name; option.textContent = name; select.append(option);
+    });
+
+    const serviceSearch = document.getElementById("serviceSearch");
+    const serviceSearchStatus = document.getElementById("serviceSearchStatus");
+    function filterServices() {
+      const query = serviceSearch.value.trim().toLowerCase();
+      let resultCount = 0;
+      Array.from(cards.children).forEach((card) => {
+        const matches = card.dataset.search.includes(query);
+        card.classList.toggle("hidden", !matches);
+        if (matches) resultCount += 1;
+      });
+      serviceSearchStatus.textContent = query
+        ? resultCount ? `${resultCount} ${resultCount === 1 ? "service" : "services"} found.` : "No services found. Try another search."
+        : `Showing all ${services.length} services.`;
+    }
+    serviceSearch.addEventListener("input", filterServices);
+    filterServices();
+    const finderQuestion = document.getElementById("finderQuestion");
+    const finderProgress = document.getElementById("finderProgress");
+    const finderOptions = document.getElementById("finderOptions");
+    const finderResult = document.getElementById("finderResult");
+    const finderServiceName = document.getElementById("finderServiceName");
+    const finderServiceDescription = document.getElementById("finderServiceDescription");
+    const finderBack = document.getElementById("finderBack");
+    const finderFollowups = {
+      creative: {
+        question: "What would you like to create or improve?",
+        options: [
+          ["A website or web app", "Website Development"],
+          ["An interface or landing page", "UI / Design"],
+          ["Graphics, posters, or logos", "Graphic Design"],
+          ["Photos or videos", "Picture / Video Editing"],
+          ["A 3D model", "3D Modeling"]
+        ]
+      },
+      computer: {
+        question: "What do you need installed or set up?",
+        options: [
+          ["An operating system", "Operating System Installation"],
+          ["A PC game", "PC Game Installation"],
+          ["Other software", "Software Installation"]
+        ]
+      },
+      project: {
+        question: "What kind of project help do you need?",
+        options: [
+          ["Learn programming or technology", "Tech Tutoring"],
+          ["Plan or make progress on a project", "Project Assistance"],
+          ["Review and polish the final stages", "Project Conclusion"]
+        ]
+      },
+      discuss: {
+        question: "How would you like to work together?",
+        options: [
+          ["Talk through an idea and get guidance", "Project Consultation"],
+          ["Work together on a project", "Collaboration"]
+        ]
+      }
+    };
+    let recommendedService = "";
+
+    function showFinderOptions(options) {
+      finderOptions.replaceChildren();
+      finderResult.hidden = true;
+      options.forEach(({ title, description, category, service }) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "finder-option";
+        const label = document.createElement("strong"); label.textContent = title;
+        button.append(label);
+        if (description) {
+          const hint = document.createElement("small"); hint.textContent = description;
+          button.append(hint);
+        }
+        button.addEventListener("click", () => {
+          if (category) showFinderFollowup(category);
+          else showFinderResult(service);
+        });
+        finderOptions.append(button);
+      });
+    }
+
+    function showFinderStart() {
+      recommendedService = "";
+      finderBack.hidden = true;
+      finderProgress.textContent = "Question 1 of 2";
+      finderQuestion.textContent = "What kind of help are you looking for?";
+      showFinderOptions([
+        { title: "Create something digital", description: "Websites, interfaces, graphics, editing, or 3D models", category: "creative" },
+        { title: "Set up my computer", description: "Windows, other software, or a PC game", category: "computer" },
+        { title: "Learn or work on a project", description: "Tutoring, project support, or finishing touches", category: "project" },
+        { title: "Grow my social media", description: "Get help with your social media presence", service: "Social Media Boost" },
+        { title: "Discuss an idea or collaborate", description: "Get guidance or work together on a project", category: "discuss" }
+      ]);
+    }
+
+    function showFinderFollowup(category) {
+      const followup = finderFollowups[category];
+      if (!followup) return;
+      finderProgress.textContent = "Question 2 of 2";
+      finderQuestion.textContent = followup.question;
+      showFinderOptions(followup.options.map(([title, service]) => ({ title, service })));
+      finderBack.hidden = false;
+      finderQuestion.focus({ preventScroll: true });
+    }
+
+    function showFinderResult(service) {
+      const match = services.find(([, name]) => name === service);
+      if (!match) return;
+      recommendedService = service;
+      finderProgress.textContent = "Your recommendation";
+      finderServiceName.textContent = match[1];
+      finderServiceDescription.textContent = match[2];
+      finderOptions.replaceChildren();
+      finderBack.hidden = true;
+      finderResult.hidden = false;
+      document.getElementById("finderBook").focus({ preventScroll: true });
+    }
+
+    finderBack.addEventListener("click", () => {
+      showFinderStart();
+      finderQuestion.focus({ preventScroll: true });
+    });
+    document.getElementById("finderBook").addEventListener("click", () => {
+      if (!recommendedService) return;
+      select.value = recommendedService;
+      document.getElementById("booking").scrollIntoView({ behavior: "smooth" });
+      select.focus({ preventScroll: true });
+    });
+    document.getElementById("finderRestart").addEventListener("click", () => {
+      showFinderStart();
+      finderQuestion.focus({ preventScroll: true });
+    });
+    showFinderStart();
+
+    const dateField = document.getElementById("date");
+    const today = new Date();
+    dateField.min = new Date(today.getTime() - today.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+    document.getElementById("year").textContent = today.getFullYear();
+
+    const themeToggle = document.getElementById("themeToggle");
+    const themeIcon = document.getElementById("themeIcon");
+    const themeText = document.getElementById("themeText");
+    function applyTheme(theme) {
+      const isDark = theme === "dark";
+      document.body.classList.toggle("dark-mode", isDark);
+      themeIcon.textContent = isDark ? "☀" : "☾";
+      themeText.textContent = isDark ? "Light" : "Dark";
+      themeToggle.setAttribute("aria-label", `Switch to ${isDark ? "light" : "dark"} mode`);
+      themeToggle.title = `Switch to ${isDark ? "light" : "dark"} mode`;
+    }
+    try { applyTheme(localStorage.getItem("danquah-theme") || "light"); }
+    catch { applyTheme("light"); }
+    themeToggle.addEventListener("click", () => {
+      const theme = document.body.classList.contains("dark-mode") ? "light" : "dark";
+      applyTheme(theme);
+      try { localStorage.setItem("danquah-theme", theme); } catch { /* Theme still works for this visit. */ }
+    });
+
+    function whatsAppUrl(text) {
+      return `https://wa.me/${CONFIG.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(text)}`;
+    }
+    document.getElementById("whatsappTop").href = whatsAppUrl("Hello, I would like to ask about booking you.");
+
+
+    const form = document.getElementById("bookingForm");
+    const success = document.getElementById("success");
+    function showBookingReview(data) {
+      success.replaceChildren();
+      const heading = document.createElement("h3"); heading.tabIndex = -1; heading.textContent = "Review your booking details";
+      const explanation = document.createElement("p"); explanation.textContent = "Check everything below. You can edit your request before choosing how to send it.";
+      const review = document.createElement("dl"); review.className = "booking-review-list";
+      const details = [
+        ["Name", data.name],
+        ["Service", data.service],
+        ["Preferred date", data.date],
+        ["Preferred time", data.time || "Not specified"],
+        ["Phone / WhatsApp", data.phone],
+        ["Email", data.email || "Not provided"],
+        ["Project details", data.message, true]
+      ];
+      details.forEach(([label, value, fullWidth]) => {
+        const item = document.createElement("div");
+        item.className = `booking-review-item${fullWidth ? " booking-review-item-full" : ""}`;
+        const term = document.createElement("dt"); term.textContent = label;
+        const description = document.createElement("dd"); description.textContent = value;
+        item.append(term, description);
+        review.append(item);
+      });
+      const actions = document.createElement("div"); actions.className = "success-actions";
+      const editButton = document.createElement("button");
+      editButton.className = "btn secondary";
+      editButton.type = "button";
+      editButton.textContent = "Edit details";
+      editButton.addEventListener("click", () => {
+        success.classList.add("hidden");
+        form.scrollIntoView({ behavior: "smooth", block: "start" });
+        form.querySelector('input[name="name"]').focus({ preventScroll: true });
+      });
+      const continueButton = document.createElement("button");
+      continueButton.className = "btn primary";
+      continueButton.type = "button";
+      continueButton.textContent = "Choose how to send";
+      continueButton.addEventListener("click", () => showBookingChoices(data));
+      actions.append(editButton, continueButton);
+      success.append(heading, explanation, review, actions);
+      success.classList.remove("notice-error");
+      success.classList.remove("hidden");
+      heading.focus({ preventScroll: true });
+      success.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    function showBookingChoices(data) {
+      success.replaceChildren();
+      const heading = document.createElement("h3"); heading.tabIndex = -1; heading.textContent = "Choose how to send your booking request";
+      const explanation = document.createElement("p"); explanation.textContent = "Your booking details are ready. Choose Email or WhatsApp, then send the message in the app that opens.";
+      const actions = document.createElement("div"); actions.className = "success-actions";
+      const backButton = document.createElement("button");
+      backButton.className = "btn secondary";
+      backButton.type = "button";
+      backButton.textContent = "Back to details";
+      backButton.addEventListener("click", () => showBookingReview(data));
+      const emailLink = document.createElement("a");
+      emailLink.className = "btn primary";
+      emailLink.href = bookingEmailUrl(data);
+      emailLink.textContent = "Send by Email";
+      const whatsappLink = document.createElement("a");
+      whatsappLink.className = "btn primary";
+      whatsappLink.href = whatsAppUrl(bookingWhatsAppMessage(data));
+      whatsappLink.target = "_blank";
+      whatsappLink.rel = "noopener noreferrer";
+      whatsappLink.textContent = "Send by WhatsApp";
+      actions.append(backButton, emailLink, whatsappLink);
+      success.append(heading, explanation, actions);
+      success.classList.remove("notice-error");
+      success.classList.remove("hidden");
+      heading.focus({ preventScroll: true });
+      success.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    function bookingWhatsAppMessage(data) {
+      return [
+        "Hello, I want to book you.", "",
+        `Name: ${data.name}`, `Phone: ${data.phone}`, `Service: ${data.service}`,
+        `Date: ${data.date}`, `Time: ${data.time || "Not specified"}`,
+        `Email: ${data.email || "Not provided"}`, "", `Details: ${data.message}`
+      ].join("\n");
+    }
+
+    function bookingEmailUrl(data) {
+      const subject = `Booking request: ${data.service}`;
+      const body = bookingWhatsAppMessage(data);
+      return `mailto:${CONFIG.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      const data = Object.fromEntries(new FormData(form).entries());
+      showBookingReview(data);
+    });
+
+    const menuButton = document.getElementById("menuBtn");
+    const nav = document.getElementById("navLinks");
+    menuButton.addEventListener("click", () => {
+      const isOpen = nav.classList.toggle("open");
+      menuButton.setAttribute("aria-expanded", String(isOpen));
+      menuButton.setAttribute("aria-label", isOpen ? "Close navigation" : "Open navigation");
+    });
+    nav.querySelectorAll("a").forEach(link => link.addEventListener("click", () => {
+      nav.classList.remove("open");
+      menuButton.setAttribute("aria-expanded", "false");
+      menuButton.setAttribute("aria-label", "Open navigation");
+    }));
+
+    const chatWidget = document.getElementById("chatWidget");
+    const chatLauncher = document.getElementById("chatLauncher");
+    const chatClose = document.getElementById("chatClose");
+    const chatLog = document.getElementById("chatLog");
+    const chatForm = document.getElementById("chatForm");
+    const chatInput = document.getElementById("chatInput");
+
+    function setChatOpen(open) {
+      chatWidget.hidden = !open;
+      chatLauncher.setAttribute("aria-expanded", String(open));
+      chatLauncher.setAttribute("aria-label", open ? "Close chat assistant" : "Open chat assistant");
+      if (open) chatInput.focus();
+      else chatLauncher.focus();
+    }
+
+    function addChatMessage(text, speaker, action) {
+      const bubble = document.createElement("div");
+      bubble.className = `chat-message ${speaker}`;
+      const paragraph = document.createElement("p");
+      paragraph.textContent = text;
+      bubble.append(paragraph);
+      if (action) {
+        if (action.kind === "whatsapp") {
+          const link = document.createElement("a");
+          link.className = "chat-action";
+          link.href = whatsAppUrl("Hello, I have a question about your services.");
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.textContent = action.label;
+          bubble.append(link);
+        } else {
+          const button = document.createElement("button");
+          button.className = "chat-action";
+          button.type = "button";
+          button.textContent = action.label;
+          button.addEventListener("click", () => {
+            if (action.service) select.value = action.service;
+            setChatOpen(false);
+            document.getElementById("booking").scrollIntoView({ behavior: "smooth" });
+            if (action.service) select.focus({ preventScroll: true });
+          });
+          bubble.append(button);
+        }
+      }
+      chatLog.append(bubble);
+      chatLog.scrollTop = chatLog.scrollHeight;
+    }
+
+    function getChatReply(rawMessage) {
+      const text = rawMessage.toLowerCase().replace(/[^a-z0-9+\s/&-]/g, " ").replace(/\s+/g, " ").trim();
+      if (/\b(whatsapp|whats app|contact|talk to|speak to|chat with)\b/.test(text)) {
+        return { text: "You can ask a question directly on WhatsApp. The chat opens with a message ready for you to send.", action: { kind: "whatsapp", label: "Open WhatsApp" } };
+      }
+      if (/\b(price|pricing|cost|how much|quote|budget)\b/.test(text)) {
+        return { text: "Prices aren’t listed on this page. Choose a service and describe what you need in the booking form to request a quote.", action: { kind: "book", label: "Request a quote" } };
+      }
+      const matchedService = services.find(([, name]) =>
+        text.includes(name.toLowerCase()) || (serviceAliases[name] || []).some(alias =>
+          alias.length <= 3 ? new RegExp(`\\b${alias}\\b`).test(text) : text.includes(alias)
+        )
+      );
+      if (matchedService) {
+        const description = matchedService[2] === "#."
+          ? "Please describe what you need in your request."
+          : matchedService[2];
+        return {
+          text: `${matchedService[1]}: ${description} You can add the details of what you need in the booking form.`,
+          action: { kind: "book", label: "Request this service", service: matchedService[1] }
+        };
+      }
+      if (/\b(available|availability|when|date|time|schedule)\b/.test(text)) {
+        return { text: "Choose your preferred date and time in the booking form. Danquah will follow up to confirm availability.", action: { kind: "book", label: "Choose a preferred time" } };
+      }
+      if (/\b(book|booking|appointment|hire|request)\b/.test(text)) {
+        return { text: "To book, choose a service, add your contact details and preferred date, then send the request on WhatsApp.", action: { kind: "book", label: "Open booking form" } };
+      }
+      if (/\b(service|services|offer|offers|what can you|what do you do)\b/.test(text)) {
+        return { text: `Services include: ${services.map(([, name]) => name).join(", ")}. Choose one in the booking form to send a request.` , action: { kind: "book", label: "Browse services" } };
+      }
+      if (/\b(about|who are you|who is danquah|location|where are you|upsa|ghana)\b/.test(text)) {
+        return { text: "Danquah Odame Kelvin is an Information Technology student at UPSA in Ghana who works on websites, design, digital projects, tutoring, and consultations." };
+      }
+      if (/\b(work|portfolio|projects|experience)\b/.test(text)) {
+        return { text: "The work section highlights website development, app and UI concepts, and digital projects. You can also book a consultation to discuss a project idea.", action: { kind: "book", label: "Discuss a project" } };
+      }
+      if (/\b(hi|hello|hey|good morning|good afternoon|good evening)\b/.test(text)) {
+        return { text: "Hello! I can help with services, booking, availability, or contacting Danquah on WhatsApp. What are you looking for?" };
+      }
+      return { text: "I can help with the services listed on this site, booking steps, preferred dates, and WhatsApp contact. Try asking “What services do you offer?”" };
+    }
+
+    function sendChatMessage(message) {
+      const cleanMessage = message.trim();
+      if (!cleanMessage) return;
+      addChatMessage(cleanMessage, "user");
+      const reply = getChatReply(cleanMessage);
+      addChatMessage(reply.text, "bot", reply.action);
+    }
+
+    chatLauncher.addEventListener("click", () => setChatOpen(chatWidget.hidden));
+    chatClose.addEventListener("click", () => setChatOpen(false));
+    chatForm.addEventListener("submit", event => {
+      event.preventDefault();
+      sendChatMessage(chatInput.value);
+      chatForm.reset();
+      chatInput.focus();
+    });
+    document.getElementById("chatQuickReplies").addEventListener("click", event => {
+      const button = event.target.closest("[data-chat-prompt]");
+      if (button) sendChatMessage(button.dataset.chatPrompt);
+    });
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape" && !chatWidget.hidden) setChatOpen(false);
+    });
+  </script>
+</body>
+</html>
